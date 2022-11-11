@@ -133,4 +133,4 @@ dmypy.json
 project_test.py
 *.ipynb
 .ipynb_checkpoints
-
+*.pdf

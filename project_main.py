@@ -26,7 +26,7 @@ if __name__ == '__main__':
             pf.sub_frame_3(SUB_OPTIONS)
 
         elif input_value == 4:
-            pass
+            pf.sub_frame_4(SUB_OPTIONS)
 
         elif input_value == 5:
             pass

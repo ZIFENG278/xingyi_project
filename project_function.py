@@ -155,6 +155,7 @@ def sub_frame_3(option_num):
         elif input_value == 4:
             break
 
+
 def show_sub_menu_4():
     print("----------------------------------------\n"
           "ANALYSE CLIENTS SALES INFORMATION\n\n"
@@ -163,6 +164,7 @@ def show_sub_menu_4():
           "3) Merge tables of clients and sales\n"
           "4) Go back\n")
 
+
 def sub_frame_4(option_num):
     clients_df = pd.read_excel('clients_sales.xlsx')
     sales_df = pd.read_excel('clients_sales.xlsx', sheet_name=-1)
@@ -170,13 +172,13 @@ def sub_frame_4(option_num):
         show_sub_menu_4()
         input_value = input_preprocess(option_num)
         if input_value == 1:
-            print(clients_df)
+            psf.unstack_category_region(sales_df)
 
         elif input_value == 2:
-            print(sales_df)
+            psf.unstack_client_category(sales_df)
 
         elif input_value == 3:
-            psf.analyse_client(clients_df, sales_df)
+            psf.merge_table(clients_df, sales_df)
 
         elif input_value == 4:
             break
