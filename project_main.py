@@ -33,7 +33,7 @@ if __name__ == '__main__':
             pf.sub_frame_4(SUB_OPTIONS)
 
         elif input_value == 5:
-            pass
+            pf.sub_frame_5(SUB_OPTIONS)
 
         elif input_value == 6 or input_value == '!Q':
             break

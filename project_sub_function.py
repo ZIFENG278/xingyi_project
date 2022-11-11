@@ -60,9 +60,10 @@ def unstack_category_region(sales_df):
     group_stack = group.unstack()
     try:
         group_stack.to_excel("Sum of sales cat reg.xlsx")
-        print("Successfully saved!!")
+        print("+++++++'Sum of sales cat reg.xlsx'+++++++\n"
+              "          Successfully saved!!           ")
     except:
-        print("Can not save, please check permission")
+        print("Can not save, please check permission or this file being opened by other application")
 
 
 def unstack_client_category(sales_df):
@@ -71,9 +72,10 @@ def unstack_client_category(sales_df):
     # group_stack = group.unstack().round(2)
     try:
         group_stack.to_excel("Mean of sales client cat.xlsx")
-        print("Successfully saved!!")
+        print("+++++++'Mean of sales client cat.xlsx'+++++++\n"
+              "           Successfully saved!!             ")
     except:
-        print("Can not save, please check permission")
+        print("Can not save, please check permission or this file being opened by other application")
 
 
 def merge_table(clients_df, sales_df):
@@ -81,6 +83,33 @@ def merge_table(clients_df, sales_df):
     merge_table.set_index('client number', inplace=True)
     try:
         merge_table.to_excel("Merge_tables.xlsx")
-        print("Successfully saved!!")
+        print("+++++++'Merge_tables.xlsx'+++++++\n"
+              "       Successfully saved!!      ")
     except:
-        print("Can not save, please check permission")
+        print("Can not save, please check permission or this file being opened by other application")
+
+def menu_5_option_1(df):
+    df_2 = df.loc[lambda df: df['Indicator'] == "Population of compulsory school age, both sexes (number)"]
+    df_3 = df_2.loc[lambda df: df['Country'] == "France"]
+    print(df_3[["Time", "Value"]])
+
+def menu_5_option_2(df):
+    df_france = df.loc[lambda df: df['Country'] == "France"]
+    df_germany = df.loc[lambda df: df['Country'] == "Germany"]
+    df_fg = pd.concat([df_france, df_germany], axis=0)
+    try:
+        df_fg.to_csv('France Germany education statistics.csv')
+        print("+++++++'France Germany education statistics.csv'+++++++\n"
+              "Statistics of France and Germany successfully exported")
+    except:
+        print("Can not save, please check permission or this file being opened by other application")
+
+def menu_5_option_3(df):
+    df_drop_Time = df.drop(columns='TIME')
+    df_groupby_mean = df_drop_Time.pivot_table(index="Country", columns="Time", aggfunc='mean')
+    try:
+        df_groupby_mean.to_csv('mean countrytime ind.csv')
+        print("+++++++'mean countrytime ind.csv'+++++++\n"
+              "          Successfully saved!!      ")
+    except:
+        print("Can not save, please check permission or this file being opened by other application")

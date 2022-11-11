@@ -187,7 +187,7 @@ def save_clients_to_csv(clients):
                 print("----------------------------------------\n"
                       "+++clients information save in 'clients_info.csv' file+++")
             except:
-                print("Can not save, please check permission")
+                print("Can not save, please check permission or this file being opened by other application")
 
 
 def show_sub_menu_3():
@@ -246,3 +246,30 @@ def sub_frame_4(option_num):
             break
 
 
+def show_sub_menu_5():
+    print("----------------------------------------\n"
+          "ANALYSE EDUCATION COUNTRIES STATISTICS CSV FILE\n\n"
+          "1) Show countries statistic for France and Population of compulsory school age, both sexes (number)\n"
+          "2) Export data of France and Germany\n"
+          "3) Calculate the mean of value grouped by country, time and indicator\n"
+          "4) Go back\n")
+
+
+
+
+def sub_frame_5(option_num):
+    df = pd.read_csv("Education countries.csv")
+    while True:
+        show_sub_menu_5()
+        input_value = input_preprocess(option_num)
+        if input_value == 1:
+            psf.menu_5_option_1(df)
+
+        elif input_value == 2:
+            psf.menu_5_option_2(df)
+
+        elif input_value == 3:
+            psf.menu_5_option_3(df)
+
+        elif input_value == 4 or input_value == '!Q':
+            break
