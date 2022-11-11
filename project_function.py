@@ -4,6 +4,7 @@ project function
 import pandas as pd
 from project_class import Client
 import project_sub_function as psf
+import os
 
 def input_preprocess(option_nums):
     '''
@@ -33,7 +34,7 @@ def show_main_menu():
     print("----------------------------------------\n"
           "Welcome to the client and sales analysis\n\n"
           "1) Create a new client in list\n"
-          "2) show all the clients in list\n"
+          "2) Show all the clients in list\n"
           "3) Show Excel file clients and sales\n"
           "4) Analyse Excel file clients and sales\n"
           "5) Analyse CSV file\n"
@@ -113,7 +114,7 @@ def create_client():
         #       )
 
     if len(client_info_list) != 4:
-        print("\nwithout save!!")
+        print("\nclient without save!!")
         return False
         # print("Save this clien or not (y or n)  ")
     elif len(client_info_list) == 0:
@@ -125,13 +126,29 @@ def create_client():
         return client
 
 
+def print_exist_clients_info():
+    if os.path.exists('clients_info.csv'):
+        df = pd.read_csv('clients_info.csv')
+        for i in range(df.shape[0]):
+            print(f"Client name : {df.iloc[i,0]}\n"
+                  f"Client date_birth : {df.iloc[i,1]}\n"
+                  f"Client city_birth : {df.iloc[i,2]}\n"
+                  f"Client email : {df.iloc[i,3]}\n"
+                 )
+
+        return True
+    else:
+        return False
+
+
 
 def show_clients_info(clients):
     print("----------------------------------------\n"
           "CLIENT INFORMATION\n")
-    if len(clients) == 0:
+    if not(print_exist_clients_info()) and len(clients) == 0:
         print("No any client")
     else:
+        # print_exist_clients_info()
         for client in clients:
             client.show_client_info()
 
@@ -155,12 +172,22 @@ def save_clients_to_csv(clients):
         clients_df = pd.DataFrame(clients_dict)
         # if os.path.isfile('clients_info.csv'):
         #     os.remove('clients_info.csv')
-        try:
-            clients_df.to_csv('clients_info.csv', index=False)
-            print("----------------------------------------\n"
-                  "+++clients information save in 'clients_info.csv' file+++")
-        except:
-            print("Can not save, please check permission")
+        if os.path.exists('clients_info.csv'):
+            old_clients_df = pd.read_csv('clients_info.csv')
+            new_clients_df = pd.concat([old_clients_df, clients_df], axis=0)
+            try:
+                new_clients_df.to_csv('clients_info.csv', index=False)
+                print("----------------------------------------\n"
+                      "+++clients information save in 'clients_info.csv' file+++")
+            except:
+                print("Can not save, please check permission")
+        else:
+            try:
+                clients_df.to_csv('clients_info.csv', index=False)
+                print("----------------------------------------\n"
+                      "+++clients information save in 'clients_info.csv' file+++")
+            except:
+                print("Can not save, please check permission")
 
 
 def show_sub_menu_3():
@@ -187,7 +214,7 @@ def sub_frame_3(option_num):
         elif input_value == 3:
             psf.analyse_client(clients_df, sales_df)
 
-        elif input_value == 4:
+        elif input_value == 4 or input_value == '!Q':
             break
 
 
@@ -215,5 +242,7 @@ def sub_frame_4(option_num):
         elif input_value == 3:
             psf.merge_table(clients_df, sales_df)
 
-        elif input_value == 4:
+        elif input_value == 4 or input_value == '!Q':
             break
+
+

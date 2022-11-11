@@ -2,20 +2,20 @@
 import pandas as pd
 
 
-def yn_process(condtion):
+def yn_process(condition):
     while True:
-        if condtion == 1:
+        if condition == 1:
             yn = input("Save this clien or not (y or n)  ")
         else:
             yn = input("would you like to continue (y or n): ")
 
-        if len(yn) != 1:
+        if yn == 'n' or yn == '!Q':
+            return False
+        elif len(yn) != 1:
             print("please input y or n")
             continue
         elif yn == 'y':
             return True
-        elif yn == 'n':
-            return False
         else:
             print("please input y or n")
             continue
@@ -66,10 +66,11 @@ def unstack_category_region(sales_df):
 
 
 def unstack_client_category(sales_df):
-    group = sales_df.groupby(["Client number", "Category"])["Sales"].mean()
-    group_stack = group.unstack().round(2)
+    group_stack = sales_df.pivot_table(index=["Client number"], columns=["Category"], aggfunc="mean")
+    # group = sales_df.groupby(["Client number", "Category"])["Sales"].mean()
+    # group_stack = group.unstack().round(2)
     try:
-        group_stack.to_excel("Mean of sales client cat.xlsx", header=True)
+        group_stack.to_excel("Mean of sales client cat.xlsx")
         print("Successfully saved!!")
     except:
         print("Can not save, please check permission")
