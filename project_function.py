@@ -99,8 +99,11 @@ def create_client():
 def show_clients_info(clients):
     print("----------------------------------------\n"
           "CLIENT INFORMATION\n")
-    for client in clients:
-        client.show_client_info()
+    if len(clients) == 0:
+        print("No any client")
+    else:
+        for client in clients:
+            client.show_client_info()
 
 
 def save_clients_to_csv(clients):
@@ -122,10 +125,12 @@ def save_clients_to_csv(clients):
         clients_df = pd.DataFrame(clients_dict)
         # if os.path.isfile('clients_info.csv'):
         #     os.remove('clients_info.csv')
-
-        clients_df.to_csv('clients_info.csv', index=False)
-        print("----------------------------------------\n"
-              "+++clients information save in 'clients_info.csv' file+++")
+        try:
+            clients_df.to_csv('clients_info.csv', index=False)
+            print("----------------------------------------\n"
+                  "+++clients information save in 'clients_info.csv' file+++")
+        except:
+            print("Can not save, please check permission")
 
 
 def show_sub_menu_3():

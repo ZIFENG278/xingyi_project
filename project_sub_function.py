@@ -54,20 +54,28 @@ def analyse_client(clients_df, sales_df):
 def unstack_category_region(sales_df):
     group = sales_df.groupby(["Category", "Region"])["Sales"].sum()
     group_stack = group.unstack()
-    group_stack.to_excel("Sum of sales cat reg.xlsx")
-    print("done")
+    try:
+        group_stack.to_excel("Sum of sales cat reg.xlsx")
+        print("Successfully saved!!")
+    except:
+        print("Can not save, please check permission")
 
 
 def unstack_client_category(sales_df):
     group = sales_df.groupby(["Client number", "Category"])["Sales"].mean()
     group_stack = group.unstack().round(2)
-    group_stack.index.name = ""
-    group_stack.to_excel("Mean of sales client cat.xlsx", header=True)
-    print("done2")
+    try:
+        group_stack.to_excel("Mean of sales client cat.xlsx", header=True)
+        print("Successfully saved!!")
+    except:
+        print("Can not save, please check permission")
 
 
 def merge_table(clients_df, sales_df):
     merge_table = pd.merge(clients_df, sales_df, left_on="client number", right_on="Client number")
     merge_table.set_index('client number', inplace=True)
-    merge_table.to_excel("Merge_tables.xlsx")
-    print("done3")
+    try:
+        merge_table.to_excel("Merge_tables.xlsx")
+        print("Successfully saved!!")
+    except:
+        print("Can not save, please check permission")
