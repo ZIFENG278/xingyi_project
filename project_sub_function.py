@@ -2,9 +2,13 @@
 import pandas as pd
 
 
-def yn_process():
+def yn_process(condtion):
     while True:
-        yn = input("would you like to continue (y or n): ")
+        if condtion == 1:
+            yn = input("Save this clien or not (y or n)  ")
+        else:
+            yn = input("would you like to continue (y or n): ")
+
         if len(yn) != 1:
             print("please input y or n")
             continue
@@ -21,8 +25,8 @@ def analyse_client(clients_df, sales_df):
     print("----------------------------------------\n"
           "RETRIEVE CLIENTS SALES INFORMATION\n")
     while True:
-        client_name = input("What is the name of the client? (Q to quit)  ")
-        if client_name == 'Q':
+        client_name = input("What is the name of the client? (!Q to quit)  ")
+        if client_name == '!Q':
             break
         elif client_name == '':
             continue
@@ -45,7 +49,7 @@ def analyse_client(clients_df, sales_df):
         #     client_num = clients_df.query(f'name == {client_name}').values[0][0]
         #     print(client_num)
         #     break
-        if yn_process():
+        if yn_process(2):
             continue
         else:
             break

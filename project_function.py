@@ -13,9 +13,13 @@ def input_preprocess(option_nums):
     '''
     while True:
         a = input(f"Choose an option between 1 and {option_nums}: ")
-        if not (a.isdigit()):
+        if a == '!Q':
+            return '!Q'
+
+        elif not(a.isdigit()):
             print("wrong input")
             continue
+
         elif int(a) < 1 or int(a) > option_nums:
             print("wrong input")
             continue
@@ -34,32 +38,37 @@ def show_main_menu():
           "4) Analyse Excel file clients and sales\n"
           "5) Analyse CSV file\n"
           "6) Quit\n"
+          "-----------!Q to force quit-------------"
           )
 
 
-def format_birth_date(date):
+def format_birth_date():
     '''
     check the birth date format
-    :param date: birth date
+
     :return: correct birth date
     '''
     while True:
-        if len(date) != 10:
+        date = input("What is the date of birth of the client?(DD/MM/YYYY) (!Q to force quit)  ")
+        if date == '!Q':
+            break
+
+        elif len(date) != 10:
             # print('1')
-            print("wrong format[DD/MM/YYYY]")
-            date = input("What is the date of birth of the client?(DD/MM/YYYY)  ")
+            print("wrong format, need [DD/MM/YYYY]")
+            # date = input("What is the date of birth of the client?(DD/MM/YYYY) (!Q to force quit)  ")
             continue
 
         elif date[2] != '/' or date[5] != '/':
             # print('2')
-            print("wrong format[DD/MM/YYYY]")
-            date = input("What is the date of birth of the client?(DD/MM/YYYY)  ")
+            print("wrong format, need [DD/MM/YYYY]")
+            # date = input("What is the date of birth of the client?(DD/MM/YYYY) (!Q to force quit)  ")
             continue
 
         elif not(date[0:2].isdigit()) or not(date[3:5].isdigit()) or not(date[6:].isdigit()):
             # print('3')
-            print("wrong format[DD/MM/YYYY]")
-            date = input("What is the date of birth of the client?(DD/MM/YYYY)  ")
+            print("wrong format, need [DD/MM/YYYY]")
+            # date = input("What is the date of birth of the client?(DD/MM/YYYY) (!Q to force quit) ")
             continue
 
         else:
@@ -69,31 +78,52 @@ def format_birth_date(date):
 
 
 def create_client():
-    print("----------------------------------------\n"
-          "CLIENT CREATION\n")
-    client_info_list = []  # index: save client name, birth, city, email
-    name = input("What is the name of the client?  ")
-    client_info_list.append(name)
+    while True:
+        print("----------------------------------------\n"
+              "CLIENT CREATION\n")
+        client_info_list = []  # index: save client name, birth, city, email
+        name = input("What is the name of the client? (!Q to force quit)  ")
+        if name == '!Q':
+            break
+        else:
+            client_info_list.append(name)
 
-    date = input("What is rhe date of birth of the client?(DD/MM/YYYY)  ")
-    date = format_birth_date(date)
-    client_info_list.append(date)
+        date = format_birth_date()
+        if date == '!Q':
+            break
+        else:
+            client_info_list.append(date)
 
-    city = input("What is the city of birth of the client?  ")
-    client_info_list.append(city)
+        city = input("What is the city of birth of the client? (!Q to force quit) ")
+        if city == '!Q':
+            break
+        else:
+            client_info_list.append(city)
 
-    email = input("What is the email of the client?  ")
-    client_info_list.append(email)
-    # print(f"\nClient name : {client_info[0]}\n"
-    #       f"Client date_birth : {client_info[1]}\n"
-    #       f"Client city_birth : {client_info[2]}\n"
-    #       f"Client email : {client_info[3]}\n"
-    #       )
-    print(" ")
-    client = Client(client_info_list)
-    client.show_client_info()
+        email = input("What is the email of the client? (!Q to force quit) ")
+        if email == '!Q':
+            break
+        else:
+            client_info_list.append(email)
+            break
+        # print(f"\nClient name : {client_info[0]}\n"
+        #       f"Client date_birth : {client_info[1]}\n"
+        #       f"Client city_birth : {client_info[2]}\n"
+        #       f"Client email : {client_info[3]}\n"
+        #       )
 
-    return client
+    if len(client_info_list) != 4:
+        print("\nwithout save!!")
+        return False
+        # print("Save this clien or not (y or n)  ")
+    elif len(client_info_list) == 0:
+        return False
+    elif psf.yn_process(1):
+        client = Client(client_info_list)
+        print(' ')
+        client.show_client_info()
+        return client
+
 
 
 def show_clients_info(clients):

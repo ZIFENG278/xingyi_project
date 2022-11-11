@@ -12,11 +12,14 @@ if __name__ == '__main__':
         pf.show_main_menu()
         input_value = pf.input_preprocess(MAIN_OPTIONS)
         # print(type(input_value))
+        if input_value == '!Q':
+            break
         if input_value == 1:
             #client_index = len(clients)
             client = pf.create_client()
-            clients.append(client)
-            print("the client has been created and saved in the list.\n")
+            if client:
+                clients.append(client)
+                print("the client has been created and saved in the list.\n")
 
         elif input_value == 2:
             pf.show_clients_info(clients)
@@ -35,5 +38,6 @@ if __name__ == '__main__':
             break
     # print(clients)
     pf.save_clients_to_csv(clients)
+    print('bye!')
 
 
