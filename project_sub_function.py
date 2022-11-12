@@ -30,11 +30,15 @@ def analyse_client(clients_df, sales_df):
             break
         elif client_name == '':
             continue
+
+        # client_search_result = clients_df.query('name == @client_name').loc[0, 'client number']
+        # client_search_result = int(client_search_result)
+        # print(client_search_result)
         try:
-            client_search_result = clients_df.query(f'name == "{client_name}"').loc[0, 'client number']
+            client_search_result = clients_df.loc[clients_df['name'] == client_name].iloc[0, 0]
             client_search_result = int(client_search_result)
             print(client_search_result)
-            sales_search_result = sales_df[sales_df['Client number'] == 1]
+            sales_search_result = sales_df[sales_df['Client number'] == client_search_result]
             print("The client has bought "
                   + str(sales_search_result.shape[0]) + " products.")
             print("Here is the mean of its sales "
