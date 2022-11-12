@@ -5,6 +5,7 @@ import pandas as pd
 from project_class import Client
 import project_sub_function as psf
 import os
+clients = []
 
 def input_preprocess(option_nums):
     '''
@@ -113,17 +114,27 @@ def create_client():
         #       f"Client email : {client_info[3]}\n"
         #       )
 
-    if len(client_info_list) != 4:
+    if len(client_info_list) == 0:
+        return False
+
+    elif len(client_info_list) != 4:
         print("\nclient without save!!")
         return False
         # print("Save this clien or not (y or n)  ")
-    elif len(client_info_list) == 0:
-        return False
+
     elif psf.yn_process(1):
         client = Client(client_info_list)
         print(' ')
         client.show_client_info()
         return client
+
+
+
+def save_client_to_list():
+    client = create_client()
+    if client:
+            clients.append(client)
+            print("the client has been created and saved in the list.\n")
 
 
 def print_exist_clients_info():
@@ -142,7 +153,7 @@ def print_exist_clients_info():
 
 
 
-def show_clients_info(clients):
+def show_clients_info():
     print("----------------------------------------\n"
           "CLIENT INFORMATION\n")
     if not(print_exist_clients_info()) and len(clients) == 0:
@@ -153,7 +164,7 @@ def show_clients_info(clients):
             client.show_client_info()
 
 
-def save_clients_to_csv(clients):
+def save_clients_to_csv():
     if len(clients) != 0:
         names, birth_dates, birth_cities, emails = [], [], [], []
         for client in clients:
