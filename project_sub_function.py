@@ -11,9 +11,9 @@ def yn_process(condition):
 
         if yn == 'n' or yn == '!Q':
             return False
-        elif len(yn) != 1:
-            print("please input y or n")
-            continue
+        # elif len(yn) != 1:
+        #     print("please input y or n")
+        #     continue
         elif yn == 'y':
             return True
         else:
@@ -35,18 +35,20 @@ def analyse_client(clients_df, sales_df):
         # client_search_result = int(client_search_result)
         # print(client_search_result)
         try:
-            client_search_result = clients_df.loc[clients_df['name'] == client_name].iloc[0, 0]
+            client_search_result = clients_df.loc[clients_df['name']
+                                                  == client_name].iloc[0, 0]
             client_search_result = int(client_search_result)
             print(client_search_result)
-            sales_search_result = sales_df[sales_df['Client number'] == client_search_result]
+            sales_search_result = sales_df[sales_df['Client number']
+                                           == client_search_result]
             print("The client has bought "
                   + str(sales_search_result.shape[0]) + " products.")
             print("Here is the mean of its sales "
-                  + str(round(sales_search_result['Sales'].mean(),2)))
+                  + str(round(sales_search_result['Sales'].mean(), 2)))
             print("Here is the maximum spend for a sale "
-                  + str(round(sales_search_result['Sales'].max(),2)))
+                  + str(round(sales_search_result['Sales'].max(), 2)))
             print("Here is the sum of sale "
-                  + str(round(sales_search_result['Sales'].sum(),2)))
+                  + str(round(sales_search_result['Sales'].sum(), 2)))
         except:
             print("no this client information")
         # else:
@@ -71,7 +73,8 @@ def unstack_category_region(sales_df):
 
 
 def unstack_client_category(sales_df):
-    group_stack = sales_df.pivot_table(index=["Client number"], columns=["Category"], aggfunc="mean")
+    group_stack = sales_df.pivot_table(index=["Client number"], columns=[
+                                       "Category"], aggfunc="mean")
     # group = sales_df.groupby(["Client number", "Category"])["Sales"].mean()
     # group_stack = group.unstack().round(2)
     try:
@@ -83,7 +86,8 @@ def unstack_client_category(sales_df):
 
 
 def merge_table(clients_df, sales_df):
-    merge_table = pd.merge(clients_df, sales_df, left_on="client number", right_on="Client number")
+    merge_table = pd.merge(clients_df, sales_df,
+                           left_on="client number", right_on="Client number")
     merge_table.set_index('client number', inplace=True)
     try:
         merge_table.to_excel("Merge_tables.xlsx")
@@ -92,10 +96,13 @@ def merge_table(clients_df, sales_df):
     except:
         print("Can not save, please check permission or this file being opened by other application")
 
+
 def menu_5_option_1(df):
-    df_2 = df.loc[lambda df: df['Indicator'] == "Population of compulsory school age, both sexes (number)"]
+    df_2 = df.loc[lambda df: df['Indicator'] ==
+                  "Population of compulsory school age, both sexes (number)"]
     df_3 = df_2.loc[lambda df: df['Country'] == "France"]
     print(df_3[["Time", "Value"]])
+
 
 def menu_5_option_2(df):
     df_france = df.loc[lambda df: df['Country'] == "France"]
@@ -108,9 +115,11 @@ def menu_5_option_2(df):
     except:
         print("Can not save, please check permission or this file being opened by other application")
 
+
 def menu_5_option_3(df):
     df_drop_Time = df.drop(columns='TIME')
-    df_groupby_mean = df_drop_Time.pivot_table(index="Country", columns="Time", aggfunc='mean')
+    df_groupby_mean = df_drop_Time.pivot_table(
+        index="Country", columns="Time", aggfunc='mean')
     try:
         df_groupby_mean.to_csv('mean countrytime ind.csv')
         print("+++++++'mean countrytime ind.csv'+++++++\n"
